@@ -30,10 +30,18 @@ else()
 endif()
 
 # ============================================
-# 主程序: lisflood_gpu
-# 完整的GPU点源扩散程序，读取dem/bci/bdy文件
+# 主程序: lisflood_gpu (模块化版本)
+# 完整的GPU洪水模拟程序，读取dem/bci/bdy文件
 # ============================================
-add_executable(lisflood_gpu lisflood_gpu.cpp)
+set(LISFLOOD_SOURCES
+    src/main.cpp
+    src/io.cpp
+    src/kernels.cpp
+    src/async_output.cpp
+)
+
+add_executable(lisflood_gpu ${LISFLOOD_SOURCES})
+target_include_directories(lisflood_gpu PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(lisflood_gpu Kokkos::kokkos)
 
 # 链接NetCDF（如果找到）
@@ -45,6 +53,7 @@ endif()
 # 链接pthread（用于异步输出）
 find_package(Threads REQUIRED)
 target_link_libraries(lisflood_gpu Threads::Threads)
+
 
 # ============================================
 # GPU核心函数库 (参考用)
