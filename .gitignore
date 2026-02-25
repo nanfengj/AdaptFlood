@@ -1,3 +1,8 @@
-test/
 build/
+*.o
+*.d
+*.exe
 results/
+*.nc
+__pycache__/
+.vscode/
