@@ -1,15 +1,15 @@
-# LISFLOOD-GPU
+# AdaptFlood
 
 **GPU-accelerated 2D flood simulation based on Kokkos**
 
-基于 Kokkos 异构计算框架的 GPU 加速二维洪水模拟程序，兼容 LISFLOOD-FP 输入格式。
+基于 Kokkos 异构计算框架的 GPU 加速二维洪水模拟程序。
 
 ---
 
 ## Features
 
 - **GPU Acceleration** — Based on [Kokkos](https://github.com/kokkos/kokkos), runs on NVIDIA (CUDA), AMD (HIP), and CPU (OpenMP) with a single codebase
-- **LISFLOOD-FP Compatible** — Reads standard `.par`, `.dem.ascii`, `.bci`, `.bdy` input files
+- **Standard Input Format** — Reads standard `.par`, `.dem.ascii`, `.bci`, `.bdy` input files
 - **Adaptive Timestep** — CFL-based adaptive time stepping for stability and efficiency
 - **Point Source Injection** — Supports thousands of QVAR/QFIX point sources (e.g., urban drainage overflow points)
 - **Boundary Conditions** — FREE, HFIX, HVAR, QFIX, QVAR point boundaries + FREE line boundaries (N/S/E/W)
@@ -36,8 +36,8 @@
 
 ```bash
 # Clone
-git clone https://github.com/nanfengj/lisflood-gpu.git
-cd lisflood-gpu
+git clone https://github.com/nanfengj/AdaptFlood.git
+cd AdaptFlood
 
 # Build
 mkdir build && cd build
@@ -54,7 +54,7 @@ bash build.sh
 ### Run
 
 ```bash
-./build/lisflood_gpu your_case.par
+./build/adaptflood your_case.par
 ```
 
 ---
@@ -161,7 +161,7 @@ t=600s: Tstep=0.85, Vol=125000m3, Area=50000m2
 ## Project Structure
 
 ```
-lisflood-gpu/
+AdaptFlood/
 ├── CMakeLists.txt              # Build configuration
 ├── build.sh                    # Build helper script
 ├── src/
@@ -179,7 +179,7 @@ lisflood-gpu/
 
 ## Algorithm
 
-This program implements the **inertial formulation** of the 2D shallow water equations (de Almeida et al., 2012), the same numerical scheme used by [LISFLOOD-FP](https://www.seamlesswave.com/LISFLOOD8.0.html):
+This program implements the **inertial formulation** of the 2D shallow water equations (de Almeida et al., 2012):
 
 1. **Floodplain Q calculation** — Compute inter-cell discharge using the inertial approximation with Manning friction
 2. **Boundary conditions** — Apply FREE outflow at domain edges
@@ -234,5 +234,4 @@ This project is open-source. Feel free to use, modify, and distribute.
 
 ## Acknowledgments
 
-- [LISFLOOD-FP](https://www.seamlesswave.com/LISFLOOD8.0.html) — Original CPU flood model by University of Bristol
 - [Kokkos](https://github.com/kokkos/kokkos) — Performance-portable parallel programming framework
